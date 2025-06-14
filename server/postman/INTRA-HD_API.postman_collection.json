@@ -193,6 +193,46 @@
           }
         }
       ]
+    },
+    {
+      "name": "Payments",
+      "description": "Payment processing endpoints",
+      "item": [
+        {
+          "name": "Initialize Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orderId\": \"{{order_id}}\",\n    \"email\": \"customer@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/payments/initialize",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", "initialize"]
+            },
+            "description": "Initialize payment for an order"
+          }
+        },
+        {
+          "name": "Verify Payment",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/payments/verify/{{payment_reference}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", "verify", "{{payment_reference}}"]
+            },
+            "description": "Verify payment status by reference"
+          }
+        }
+      ]
     }
   ],
   "variable": [
@@ -202,6 +242,14 @@
     },
     {
       "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    },
+    {
+      "key": "payment_reference",
       "value": ""
     }
   ]

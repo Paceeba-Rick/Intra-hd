@@ -52,6 +52,17 @@ const Order = db.define('Order', {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
   },
+  deliveryFee: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    defaultValue: 6.00,
+    comment: 'Fixed delivery fee in GHS'
+  },
+  totalAmount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    comment: 'Order amount + delivery fee'
+  },
   // Payment information
   paymentStatus: {
     type: DataTypes.ENUM('pending', 'completed', 'failed'),
@@ -61,6 +72,15 @@ const Order = db.define('Order', {
     type: DataTypes.STRING,
     allowNull: true
   },
+  paymentDate: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
+  paymentMethod: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: 'paystack'
+  },
   // Order status
   status: {
     type: DataTypes.ENUM('received', 'processing', 'in-delivery', 'delivered', 'cancelled'),
@@ -68,6 +88,16 @@ const Order = db.define('Order', {
   }
 }, {
   timestamps: true,
+  hooks: {
+    beforeValidate: (order) => {
+      // Calculate total amount before saving
+      if (order.orderAmount) {
+        const orderAmount = parseFloat(order.orderAmount);
+        const deliveryFee = parseFloat(order.deliveryFee || 6.00);
+        order.totalAmount = orderAmount + deliveryFee;
+      }
+    }
+  },
   indexes: [
     { fields: ['paymentReference'] },
     { fields: ['phoneNumber'] }
