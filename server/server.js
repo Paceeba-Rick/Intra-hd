@@ -11,6 +11,10 @@ const initDatabase = require('./config/dbInit');
 
 // Import routes
 const orderRoutes = require('./routes/orderRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+
+// Import middleware
+const { authenticateAdmin } = require('./middleware/auth');
 
 // Initialize Express app
 const app = express();
@@ -34,8 +38,9 @@ app.get('/', (req, res) => {
   res.send('INTRA-HD API is running');
 });
 
-// API Routes
+// Public API Routes
 app.use('/api/orders', orderRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Start server
 app.listen(PORT, () => {
