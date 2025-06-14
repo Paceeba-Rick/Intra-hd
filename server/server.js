@@ -7,6 +7,7 @@ dotenv.config();
 
 // Import database configuration
 const db = require('./config/database');
+const initDatabase = require('./config/dbInit');
 
 // Initialize Express app
 const app = express();
@@ -17,9 +18,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Test database connection
+// Test database connection and initialize tables
 db.authenticate()
-  .then(() => console.log('Database connection established successfully'))
+  .then(() => {
+    console.log('Database connection established successfully');
+    return initDatabase();
+  })
   .catch(err => console.error('Unable to connect to the database:', err));
 
 // Basic route
