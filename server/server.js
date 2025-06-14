@@ -9,6 +9,9 @@ dotenv.config();
 const db = require('./config/database');
 const initDatabase = require('./config/dbInit');
 
+// Import routes
+const orderRoutes = require('./routes/orderRoutes');
+
 // Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,6 +33,9 @@ db.authenticate()
 app.get('/', (req, res) => {
   res.send('INTRA-HD API is running');
 });
+
+// API Routes
+app.use('/api/orders', orderRoutes);
 
 // Start server
 app.listen(PORT, () => {
