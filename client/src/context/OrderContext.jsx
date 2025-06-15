@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create the Order context
 const OrderContext = createContext();
@@ -14,31 +14,40 @@ export const useOrder = () => {
 
 // Order Provider component
 export const OrderProvider = ({ children }) => {
-  const [order, setOrder] = useState({
-    residenceType: null,
-    name: '',
-    phoneNumber: '',
-    orderDescription: '',
-    orderAmount: '',
-    // Legon Hall specific
-    block: '',
-    room: '',
-    // Traditional Halls specific
-    hall: '',
-    // Hostels specific
-    hostel: '',
-    // Payment info
-    paymentStatus: null,
-    paymentReference: null,
-    orderDate: null
+  // Initialize state from localStorage or default values
+  const [order, setOrder] = useState(() => {
+    const savedOrder = localStorage.getItem('intraHD_order');
+    return savedOrder ? JSON.parse(savedOrder) : {
+      residenceType: null,
+      name: '',
+      phoneNumber: '',
+      orderDescription: '',
+      orderAmount: '',
+      // Legon Hall specific
+      block: '',
+      room: '',
+      // Traditional Halls specific
+      hall: '',
+      // Hostels specific
+      hostel: '',
+      // Payment info
+      paymentStatus: null,
+      paymentReference: null,
+      orderDate: null
+    };
   });
+
+  // Persist order data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('intraHD_order', JSON.stringify(order));
+  }, [order]);
 
   // Update the entire order object
   const updateOrder = (newOrderData) => {
     setOrder(prevOrder => ({
       ...prevOrder,
       ...newOrderData,
-      orderDate: new Date().toISOString()
+      orderDate: newOrderData.orderDate || new Date().toISOString()
     }));
   };
 
@@ -53,7 +62,7 @@ export const OrderProvider = ({ children }) => {
 
   // Clear order data
   const clearOrder = () => {
-    setOrder({
+    const emptyOrder = {
       residenceType: null,
       name: '',
       phoneNumber: '',
@@ -66,7 +75,9 @@ export const OrderProvider = ({ children }) => {
       paymentStatus: null,
       paymentReference: null,
       orderDate: null
-    });
+    };
+    setOrder(emptyOrder);
+    localStorage.removeItem('intraHD_order');
   };
 
   // The value that will be provided to consumers of this context
