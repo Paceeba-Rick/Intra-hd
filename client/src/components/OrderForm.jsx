@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useOrder } from '../context/OrderContext';
 import AnimatedImage from './AnimatedImage';
-import { campusImages } from '../assets/campusImages';
 import { validateOrderForm } from '../utils/formValidation';
 import legonHall from '../assets/legon-hall.jpg';
 
@@ -88,40 +88,62 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
       default: return '';
     }
   };
-
-  const getResidenceImage = () => {
-    switch (residenceType) {
-      case 'legon-hall': return campusImages.legonHall;
-      case 'traditional-halls': return campusImages.traditionalHalls;
-      case 'hostels': return campusImages.hostels;
-      default: return '';
+  
+  const formVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1
+      }
     }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 }
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="flex justify-center mb-6">
+    <motion.div 
+      className="max-w-3xl mx-auto"
+      initial="hidden"
+      animate="visible"
+      variants={formVariants}
+    >
+      <motion.div 
+        className="flex justify-center mb-6"
+        variants={itemVariants}
+      >
         <AnimatedImage 
           src={legonHall} 
           alt='Error Image'
           className="w-full h-48 object-cover rounded-lg shadow-md"
         />
-      </div>
+      </motion.div>
 
-      <div className="mb-6">
+      <motion.div 
+        className="mb-6"
+        variants={itemVariants}
+      >
         <h2 className="text-2xl font-bold text-blue-800 mb-2">
           {getResidenceName()} Order Form
         </h2>
         <p className="text-gray-600">
           Please fill out the details below to place your order
         </p>
-      </div>
+      </motion.div>
 
       <form onSubmit={handleSubmit}>
         {/* Name Field - Common to all forms */}
-        <div className="mb-4">
+        <motion.div 
+          className="mb-4"
+          variants={itemVariants}
+        >
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-          <input
+          <motion.input
             type="text"
             id="name"
             name="name"
@@ -129,17 +151,22 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
             onChange={handleChange}
             className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
             placeholder="Enter your full name"
+            whileFocus={{ scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 300 }}
           />
           {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
-        </div>
+        </motion.div>
 
         {/* Residence-specific fields */}
         {residenceType === 'legon-hall' && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+              variants={itemVariants}
+            >
               <div>
                 <label htmlFor="block" className="block text-sm font-medium text-gray-700 mb-1">Block</label>
-                <input
+                <motion.input
                   type="text"
                   id="block"
                   name="block"
@@ -147,12 +174,14 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.block ? 'border-red-500' : 'border-gray-300'}`}
                   placeholder="Enter your block"
+                  whileFocus={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 />
                 {errors.block && <p className="mt-1 text-sm text-red-500">{errors.block}</p>}
               </div>
               <div>
                 <label htmlFor="room" className="block text-sm font-medium text-gray-700 mb-1">Room</label>
-                <input
+                <motion.input
                   type="text"
                   id="room"
                   name="room"
@@ -160,10 +189,12 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.room ? 'border-red-500' : 'border-gray-300'}`}
                   placeholder="Enter your room number"
+                  whileFocus={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 />
                 {errors.room && <p className="mt-1 text-sm text-red-500">{errors.room}</p>}
               </div>
-            </div>
+            </motion.div>
           </>
         )}
 
@@ -230,9 +261,12 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
         )}
 
         {/* Common fields for all forms */}
-        <div className="mb-4">
+        <motion.div 
+          className="mb-4"
+          variants={itemVariants}
+        >
           <label htmlFor="orderDescription" className="block text-sm font-medium text-gray-700 mb-1">Order Description</label>
-          <textarea
+          <motion.textarea
             id="orderDescription"
             name="orderDescription"
             value={formData.orderDescription}
@@ -240,14 +274,19 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
             rows={3}
             className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.orderDescription ? 'border-red-500' : 'border-gray-300'}`}
             placeholder="Describe what you want to order in detail"
-          ></textarea>
+            whileFocus={{ scale: 1.01 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          ></motion.textarea>
           {errors.orderDescription && <p className="mt-1 text-sm text-red-500">{errors.orderDescription}</p>}
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"
+          variants={itemVariants}
+        >
           <div>
             <label htmlFor="orderAmount" className="block text-sm font-medium text-gray-700 mb-1">Order Amount (GHS)</label>
-            <input
+            <motion.input
               type="number"
               id="orderAmount"
               name="orderAmount"
@@ -256,13 +295,15 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.orderAmount ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="Enter amount in GHS"
               step="0.01"
+              whileFocus={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300 }}
             />
             {errors.orderAmount && <p className="mt-1 text-sm text-red-500">{errors.orderAmount}</p>}
           </div>
           
           <div>
             <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-            <input
+            <motion.input
               type="tel"
               id="phoneNumber"
               name="phoneNumber"
@@ -270,24 +311,33 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
               onChange={handleChange}
               className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="Enter your phone number"
+              whileFocus={{ scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 300 }}
             />
             {errors.phoneNumber && <p className="mt-1 text-sm text-red-500">{errors.phoneNumber}</p>}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex justify-between">
-          <button
+        <motion.div 
+          className="flex justify-between"
+          variants={itemVariants}
+        >
+          <motion.button
             type="button"
             onClick={onBack}
             className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition-colors"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
             Back
-          </button>
+          </motion.button>
           
-          <button
+          <motion.button
             type="submit"
             disabled={isSubmitting}
             className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400 flex items-center"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
             {isSubmitting ? (
               <>
@@ -300,10 +350,10 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
             ) : (
               'Proceed to Payment'
             )}
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </form>
-    </div>
+    </motion.div>
   );
 }
 

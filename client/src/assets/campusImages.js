@@ -1,18 +1,26 @@
 // Define campus images for the application
 
 // Demo image URLs (in a real application, these would be imported from local files)
+import legonHall from './legon-hall.jpg';
+import otherHalls from './other-halls.png';
+import hostels from './hostel.jpg';
+import ugLogo from './Intra-hd.png';
+
+// Create a payment image using the logo for now
+const paymentImage = ugLogo;
+
 export const campusImages = {
   // Main images
   ugLogo: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/University_of_Ghana_logo.svg/800px-University_of_Ghana_logo.svg.png",
   ugMainGate: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Gate_to_University_of_Ghana_campus.jpg/1280px-Gate_to_University_of_Ghana_campus.jpg",
   
   // Residence types
-  legonHall: "https://upload.wikimedia.org/wikipedia/commons/0/08/LEGONHALL.jpg",
+  legonHall,
   traditionalHalls: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Commonwealth_Hall_of_University_of_Ghana.jpg",
-  hostels: "https://media.istockphoto.com/id/675314518/photo/student-accommodation-bedroom-in-modern-purpose-built-apartments.jpg?s=612x612&w=0&k=20&c=fVp6HFBK7n-Fwn9zVc1P3QXsB8-WXTCIY8l9PeTPMfw=",
+  hostels,
   
   // Payment related
-  payment: "https://cdn-icons-png.flaticon.com/512/2331/2331941.png",
+  payment: paymentImage,
   
   // Fallback image
   placeholder: "https://placehold.co/600x400?text=University+of+Ghana+Campus"

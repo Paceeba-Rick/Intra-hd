@@ -46,10 +46,13 @@ if (process.env.NODE_ENV === 'production') {
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CLIENT_URL || '*',
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.CLIENT_URL  // In production, only allow the specific client URL
+    : '*',                    // In development, allow all origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 204,
+  credentials: true
 };
 
 // Middleware
