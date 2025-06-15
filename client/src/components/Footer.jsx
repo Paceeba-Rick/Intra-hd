@@ -52,7 +52,7 @@ const Footer = () => {
               <FaWhatsapp size={18} />
             </motion.a>
             <motion.a 
-              href="mailto:support@intrahd.com" 
+              href="mailto:yakubceeba@gmail.com" 
               className="p-2 bg-white bg-opacity-20 rounded-full hover:bg-opacity-30 transition-all"
               aria-label="Email"
               whileHover={{ scale: 1.1, rotate: -5 }}
