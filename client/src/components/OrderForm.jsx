@@ -142,7 +142,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
           className="mb-4"
           variants={itemVariants}
         >
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
           <motion.input
             type="text"
             id="name"
@@ -150,7 +150,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
             value={formData.name}
             onChange={handleChange}
             className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Enter your full name"
+            placeholder="Enter your name"
             whileFocus={{ scale: 1.01 }}
             transition={{ type: "spring", stiffness: 300 }}
           />

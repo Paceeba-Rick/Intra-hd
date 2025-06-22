@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import orderService from '../services/orderService';
@@ -106,7 +107,10 @@ const AdminDashboard = () => {
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">INTRA-HD Admin Dashboard</h1>
+            <Link to='/'>
+              <h1 className="text-2xl font-bold text-gray-800">INTRA-HD Admin Dashboard</h1>
+            </Link>
+            
             {adminProfile && (
               <p className="text-sm text-gray-500">Logged in as {adminProfile.username}</p>
             )}
