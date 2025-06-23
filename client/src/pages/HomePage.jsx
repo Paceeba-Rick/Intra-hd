@@ -78,7 +78,7 @@ const HomePage = () => {
 
   // Featured partners
   const partners = [
-    "Night Market", "Bush Canteen", "Papa's Pizza", "University Bookshop", "Campus Supermarket"
+    "Night Market", "Bush Canteen", "Farmer's Kitchen", "University Bookshop", "All Needs Supermarket"
   ];
 
   return (
