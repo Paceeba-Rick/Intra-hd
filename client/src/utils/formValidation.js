@@ -7,7 +7,7 @@ export const validateOrderForm = (formData, residenceType) => {
 
   // Validate common fields
   if (!formData.name || formData.name.trim() === '') {
-    errors.name = 'Full name is required';
+    errors.name = 'Name is required';
   }
 
   if (!formData.orderDescription || formData.orderDescription.trim() === '') {
