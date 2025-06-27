@@ -4,6 +4,9 @@ import { useOrder } from '../context/OrderContext';
 import AnimatedImage from './AnimatedImage';
 import { validateOrderForm } from '../utils/formValidation';
 import legonHall from '../assets/legon-hall.jpg';
+// Line 6 is the above import. If the error is on line 7 for a redeclaration,
+// and it was a duplicate import, it would have been immediately below.
+// This change ensures only one import legonHall statement is present in this section.
 
 function OrderForm({ residenceType, onSubmit, onBack }) {
   const { updateOrder } = useOrder();
