@@ -267,7 +267,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
               <option value="volta">Volta Hall</option>
               <option value="akuafo">Akuafo Hall</option>
               <option value="mensah-sarbah">Mensah Sarbah Hall</option>
-              <option value="other">Other</option>
+              <option value="other">Others</option>
             </select>
             {errors.hall && <p className="mt-1 text-sm text-red-500">{errors.hall}</p>}
             {showOtherHallInput && (
