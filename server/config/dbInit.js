@@ -4,8 +4,8 @@ const { Order } = require('../models');
 // Initialize database tables
 const initDatabase = async () => {
   try {
-    await db.sync({ force: true });
-    console.log('Database tables synced successfully');
+    await db.sync({ alter: true });
+    console.log('Database tables synced successfully (data preserved)');
   } catch (error) {
     console.error('Error syncing database:', error);
     process.exit(1);

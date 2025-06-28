@@ -1,5 +1,6 @@
 const { Order } = require('../models');
 const Joi = require('joi');
+const { sendOrderNotification } = require('../utils/emailService');
 
 // Validation schema for creating a new order
 const orderSchema = Joi.object({
@@ -56,6 +57,11 @@ exports.createOrder = async (req, res) => {
 
     // Create order in database
     const order = await Order.create(orderData);
+    
+    // Send email notification (don't block the response if email fails)
+    sendOrderNotification(order.toJSON()).catch(error => {
+      console.error('Failed to send email notification:', error);
+    });
     
     return res.status(201).json({
       success: true,
