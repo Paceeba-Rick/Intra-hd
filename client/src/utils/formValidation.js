@@ -7,7 +7,7 @@ export const validateOrderForm = (formData, residenceType) => {
 
   // Validate common fields
   if (!formData.name || formData.name.trim() === '') {
-    errors.name = 'Full name is required';
+    errors.name = 'Name is required';
   }
 
   if (!formData.orderDescription || formData.orderDescription.trim() === '') {
@@ -39,12 +39,17 @@ export const validateOrderForm = (formData, residenceType) => {
     case 'traditional-halls':
       if (!formData.hall || formData.hall === '') {
         errors.hall = 'Hall name is required';
+      } else if (formData.hall === 'other' && (!formData.otherHall || formData.otherHall.trim() === '')) {
+        errors.otherHall = 'Please specify the hall name';
       }
       break;
     case 'hostels':
       if (!formData.hostel || formData.hostel === '') {
         errors.hostel = 'Hostel name is required';
+      } else if (formData.hostel === 'other' && (!formData.otherHostel || formData.otherHostel.trim() === '')) {
+        errors.otherHostel = 'Please specify the hostel name';
       }
+      // Block is required for hostels regardless of 'other' selection for hostel name
       if (!formData.block || formData.block.trim() === '') {
         errors.block = 'Block is required';
       }
