@@ -4,8 +4,8 @@ import { useOrder } from '../context/OrderContext';
 import AnimatedImage from './AnimatedImage';
 import { validateOrderForm } from '../utils/formValidation';
 import legonHall from '../assets/legon-hall.jpg';
-import legonHall from '../assets/other-halls.jpg';
-import legonHall from '../assets/hostel.jpg';
+// import legonHall2 from '../assets/other-halls.jpg';
+// import legonHall3 from '../assets/hostel.jpg';
 
 function OrderForm({ residenceType, onSubmit, onBack }) {
   const { updateOrder } = useOrder();
