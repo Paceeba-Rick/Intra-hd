@@ -4,8 +4,6 @@ import { useOrder } from '../context/OrderContext';
 import AnimatedImage from './AnimatedImage';
 import { validateOrderForm } from '../utils/formValidation';
 import legonHall from '../assets/legon-hall.jpg';
-// import legonHall2 from '../assets/other-halls.jpg';
-// import legonHall3 from '../assets/hostel.jpg';
 
 function OrderForm({ residenceType, onSubmit, onBack }) {
   const { updateOrder } = useOrder();
@@ -29,12 +27,14 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
       case 'traditional-halls':
         return {
           ...baseFields,
-          hall: ''
+          hall: '',
+          otherHall: ''
         };
       case 'hostels':
         return {
           ...baseFields,
           hostel: '',
+          otherHostel: '',
           block: ''
         };
       default:
@@ -45,14 +45,41 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
   const [formData, setFormData] = useState(getInitialFormState());
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showOtherHallInput, setShowOtherHallInput] = useState(false);
+  const [showOtherHostelInput, setShowOtherHostelInput] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === 'hall') {
+      if (value === 'other') {
+        setShowOtherHallInput(true);
+      } else {
+        setShowOtherHallInput(false);
+        setFormData((prev) => ({ ...prev, otherHall: '' }));
+      }
+    }
+
+    if (name === 'hostel') {
+      if (value === 'other') {
+        setShowOtherHostelInput(true);
+      } else {
+        setShowOtherHostelInput(false);
+        setFormData((prev) => ({ ...prev, otherHostel: '' }));
+      }
+    }
     
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: null }));
+    }
+     // Clear specific "other" field error if main selection changes
+    if (name === 'hall' && value !== 'other' && errors.otherHall) {
+      setErrors((prev) => ({ ...prev, otherHall: null }));
+    }
+    if (name === 'hostel' && value !== 'other' && errors.otherHostel) {
+      setErrors((prev) => ({ ...prev, otherHostel: null }));
     }
   };
 
@@ -60,8 +87,21 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Validate form
-    const validationErrors = validateOrderForm(formData, residenceType);
+    // Prepare data for validation and submission
+    let dataToValidate = { ...formData };
+    if (residenceType === 'traditional-halls' && formData.hall === 'other') {
+      // For validation, keep otherHall
+    } else if (residenceType === 'traditional-halls') {
+      dataToValidate = { ...dataToValidate, otherHall: '' }; // Ensure otherHall is not validated if not selected
+    }
+
+    if (residenceType === 'hostels' && formData.hostel === 'other') {
+      // For validation, keep otherHostel
+    } else if (residenceType === 'hostels') {
+      dataToValidate = { ...dataToValidate, otherHostel: '' }; // Ensure otherHostel is not validated if not selected
+    }
+
+    const validationErrors = validateOrderForm(dataToValidate, residenceType);
     
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -69,16 +109,28 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
       return;
     }
 
+    // Prepare final data for submission
+    let submissionData = { ...formData };
+    if (submissionData.hall === 'other') {
+      submissionData.hall = submissionData.otherHall;
+    }
+    delete submissionData.otherHall;
+
+    if (submissionData.hostel === 'other') {
+      submissionData.hostel = submissionData.otherHostel;
+    }
+    delete submissionData.otherHostel;
+
     // Update context with order data
     updateOrder({
       residenceType,
-      ...formData
+      ...submissionData
     });
 
     // Proceed to payment
     onSubmit({
       residenceType,
-      ...formData
+      ...submissionData
     });
   };
 
@@ -215,8 +267,26 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
               <option value="volta">Volta Hall</option>
               <option value="akuafo">Akuafo Hall</option>
               <option value="mensah-sarbah">Mensah Sarbah Hall</option>
+              <option value="other">Other</option>
             </select>
             {errors.hall && <p className="mt-1 text-sm text-red-500">{errors.hall}</p>}
+            {showOtherHallInput && (
+              <motion.div className="mt-2" variants={itemVariants}>
+                <label htmlFor="otherHall" className="block text-sm font-medium text-gray-700 mb-1">Specify Hall Name</label>
+                <motion.input
+                  type="text"
+                  id="otherHall"
+                  name="otherHall"
+                  value={formData.otherHall}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.otherHall ? 'border-red-500' : 'border-gray-300'}`}
+                  placeholder="Enter hall name"
+                  whileFocus={{ scale: 1.01 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                />
+                {errors.otherHall && <p className="mt-1 text-sm text-red-500">{errors.otherHall}</p>}
+              </motion.div>
+            )}
           </div>
         )}
 
@@ -241,9 +311,27 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
                   <option value="TF">TF Hostel</option>
                   <option value="pentagon">Pentagon Hostel</option>
                   <option value="bani">Bani Hostel</option>
-                  <option value="other">Other Hostel</option>
+                  {/* <option value="other">Other Hostel</option> Already exists, we will use this one */}
+                  <option value="other">Other</option>
                 </select>
                 {errors.hostel && <p className="mt-1 text-sm text-red-500">{errors.hostel}</p>}
+                {showOtherHostelInput && (
+                  <motion.div className="mt-2" variants={itemVariants}>
+                    <label htmlFor="otherHostel" className="block text-sm font-medium text-gray-700 mb-1">Specify Hostel Name</label>
+                    <motion.input
+                      type="text"
+                      id="otherHostel"
+                      name="otherHostel"
+                      value={formData.otherHostel}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.otherHostel ? 'border-red-500' : 'border-gray-300'}`}
+                      placeholder="Enter hostel name"
+                      whileFocus={{ scale: 1.01 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    />
+                    {errors.otherHostel && <p className="mt-1 text-sm text-red-500">{errors.otherHostel}</p>}
+                  </motion.div>
+                )}
               </div>
               <div>
                 <label htmlFor="block" className="block text-sm font-medium text-gray-700 mb-1">Block</label>
@@ -267,7 +355,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
           className="mb-4"
           variants={itemVariants}
         >
-          <label htmlFor="orderDescription" className="block text-sm font-medium text-gray-700 mb-1">Order Description/vendor location</label>
+          <label htmlFor="orderDescription" className="block text-sm font-medium text-gray-700 mb-1">Order Description</label>
           <motion.textarea
             id="orderDescription"
             name="orderDescription"
@@ -275,7 +363,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
             onChange={handleChange}
             rows={3}
             className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.orderDescription ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Describe what you want to order in detail, and where we should buy it"
+            placeholder="Describe what you want to order in detail"
             whileFocus={{ scale: 1.01 }}
             transition={{ type: "spring", stiffness: 300 }}
           ></motion.textarea>
