@@ -60,7 +60,7 @@ const HomePage = () => {
   const faqs = [
     {
       question: "How quickly can you deliver my order?",
-      answer: "We typically deliver within 30-45 minutes of receiving your order, depending on your location on campus and the nature of the delivery."
+      answer: "We typically deliver within 30-40 minutes of receiving your order, depending on your location on campus and the nature of the delivery."
     },
     {
       question: "What payment methods do you accept?",
@@ -139,7 +139,7 @@ const HomePage = () => {
                 <FaClock className="text-yellow-300" size={28} />
               </div>
               <h3 className="font-semibold">Fast Delivery</h3>
-              <p className="text-sm opacity-80">30-45 mins</p>
+              <p className="text-sm opacity-80">30-40 mins</p>
             </motion.div>
             <motion.div 
               className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center border border-white/20"
