@@ -15,7 +15,7 @@ const NotFoundPage = () => {
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Page Not Found</h1>
       <p className="text-lg text-gray-600 mb-8">
       This page is still under development. <div>it will be available in the shortest possible time. </div>
-        <small>check it out in awhale</small>
+        <small>check it out in awhale</small> 
       </p>
       
       <Link 
