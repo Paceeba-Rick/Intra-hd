@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://intra-hd.vercel.app/</loc>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://intra-hd.vercel.app/pages/home</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://intra-hd.vercel.app/contact</loc>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://intra-hd.vercel.app/features</loc>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://intra-hd.vercel.app/faq</loc>
+    <priority>0.70</priority>
+  </url>
+
+</urlset>
