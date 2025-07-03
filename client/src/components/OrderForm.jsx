@@ -355,7 +355,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
           className="mb-4"
           variants={itemVariants}
         >
-          <label htmlFor="orderDescription" className="block text-sm font-medium text-gray-700 mb-1">Order Description</label>
+          <label htmlFor="orderDescription" className="block text-sm font-medium text-gray-700 mb-1">Order Description/vendor</label>
           <motion.textarea
             id="orderDescription"
             name="orderDescription"
@@ -363,7 +363,7 @@ function OrderForm({ residenceType, onSubmit, onBack }) {
             onChange={handleChange}
             rows={3}
             className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.orderDescription ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Describe what you want to order in detail"
+            placeholder="Describe what you want to order in detail and add a vendor if applicable"
             whileFocus={{ scale: 1.01 }}
             transition={{ type: "spring", stiffness: 300 }}
           ></motion.textarea>
