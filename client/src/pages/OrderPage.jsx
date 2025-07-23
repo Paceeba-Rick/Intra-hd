@@ -38,16 +38,11 @@ const OrderPage = () => {
     removeFromCart(itemId);
   };
 
-  const handleCheckout = () => {
-    navigate('/payment');
-  }
-
   const handleOrderSubmit = (data) => {
     // Update the context with order data
     updateOrder({
       residenceType,
       ...data,
-      items: cartItems
     });
     
     // Navigate to payment page
@@ -66,7 +61,7 @@ const OrderPage = () => {
           <VendorItems items={mockItems} onAddToCart={handleAddToCart} />
         </div>
         <div>
-          <Cart cartItems={cartItems} onRemoveFromCart={handleRemoveFromCart} onCheckout={handleCheckout} />
+          <Cart cartItems={cartItems} onRemoveFromCart={handleRemoveFromCart} />
           <div className="mt-8">
             <OrderForm
               residenceType={residenceType}

@@ -35,6 +35,7 @@ export const OrderProvider = ({ children }) => {
       paymentReference: null,
       orderDate: null,
       items: [],
+      location: '',
     };
   });
 
