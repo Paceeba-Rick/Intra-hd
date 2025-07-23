@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaShoppingCart, FaTrash } from 'react-icons/fa';
+import LocationForm from './LocationForm';
+import { useOrder } from '../context/OrderContext';
+import { useNavigate } from 'react-router-dom';
 
-const Cart = ({ cartItems, onRemoveFromCart, onCheckout }) => {
+const Cart = ({ cartItems, onRemoveFromCart }) => {
+  const [showLocationForm, setShowLocationForm] = useState(false);
+  const { updateOrder } = useOrder();
+  const navigate = useNavigate();
+
   const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const containerVariants = {
@@ -13,6 +20,22 @@ const Cart = ({ cartItems, onRemoveFromCart, onCheckout }) => {
   const itemVariants = {
     hidden: { opacity: 0, x: 50 },
     visible: { opacity: 1, x: 0 },
+  };
+
+  const handleCheckout = () => {
+    setShowLocationForm(true);
+  };
+
+  const handleLocationSubmit = (location) => {
+    updateOrder({
+      items: cartItems,
+      location: location,
+      orderDescription: 'Order from cart',
+      orderAmount: total,
+      name: 'Cart Order',
+      phoneNumber: 'N/A'
+    });
+    navigate('/payment');
   };
 
   return (
@@ -61,12 +84,17 @@ const Cart = ({ cartItems, onRemoveFromCart, onCheckout }) => {
             <span>Total:</span>
             <span>GH₵{total.toFixed(2)}</span>
           </div>
-          <button
-            onClick={onCheckout}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg mt-6 transition-colors"
-          >
-            Proceed to Checkout
-          </button>
+
+          {showLocationForm ? (
+            <LocationForm onSubmit={handleLocationSubmit} />
+          ) : (
+            <button
+              onClick={handleCheckout}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg mt-6 transition-colors"
+            >
+              Proceed to Checkout
+            </button>
+          )}
         </div>
       )}
     </motion.div>
