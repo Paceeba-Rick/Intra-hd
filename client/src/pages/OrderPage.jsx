@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import OrderForm from '../components/OrderForm';
 import VendorItems from '../components/VendorItems';
-import Cart from '../components/Cart';
+import Cart from '../components/Cart/Cart';
 import { useOrder } from '../context/OrderContext';
 
 // Mock data for vendor items
