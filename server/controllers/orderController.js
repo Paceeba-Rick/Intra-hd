@@ -1,11 +1,13 @@
+
 const { Order } = require('../models');
 const Joi = require('joi');
+const { sendOrderNotification } = require('../utils/emailService');
 
 // Validation schema for creating a new order
 const orderSchema = Joi.object({
   name: Joi.string().required(),
   phoneNumber: Joi.string().required(),
-  residenceType: Joi.string().valid('legon-hall', 'traditional-halls', 'hostels').optional(),
+  residenceType: Joi.string().valid('legon-hall', 'traditional-halls', 'hostels').required(),
   orderDescription: Joi.string().required(),
   orderAmount: Joi.number().positive().required(),
   // Optional fields based on residence type
@@ -30,9 +32,7 @@ const orderSchema = Joi.object({
     otherwise: Joi.optional()
   }),
   userId: Joi.string().optional(),
-  deliveryFee: Joi.number().default(6.00),
-  items: Joi.array().optional(),
-  location: Joi.string().optional(),
+  deliveryFee: Joi.number().default(6.00)
 });
 
 // Create a new order
@@ -58,6 +58,11 @@ exports.createOrder = async (req, res) => {
 
     // Create order in database
     const order = await Order.create(orderData);
+    
+    // Send email notification (don't block the response if email fails)
+    sendOrderNotification(order.toJSON()).catch(error => {
+      console.error('Failed to send email notification:', error);
+    });
     
     return res.status(201).json({
       success: true,
