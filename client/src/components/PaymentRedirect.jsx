@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -41,9 +42,6 @@ function PaymentRedirect({ orderData, onBack }) {
   };
 
   const formatAddress = () => {
-    if (orderData.location) {
-      return orderData.location;
-    }
     switch (orderData.residenceType) {
       case 'legon-hall':
         return `Block ${orderData.block || 'N/A'}, Room ${orderData.room || 'N/A'}, Legon Hall`;
