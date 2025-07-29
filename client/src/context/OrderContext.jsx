@@ -33,9 +33,7 @@ export const OrderProvider = ({ children }) => {
       // Payment info
       paymentStatus: null,
       paymentReference: null,
-      orderDate: null,
-      items: [],
-      location: '',
+      orderDate: null
     };
   });
 
@@ -82,50 +80,12 @@ export const OrderProvider = ({ children }) => {
     localStorage.removeItem('intraHD_order');
   };
 
-  const addToCart = (item) => {
-    setOrder((prevOrder) => {
-      const existingItem = prevOrder.items.find((i) => i.id === item.id);
-      if (existingItem) {
-        return {
-          ...prevOrder,
-          items: prevOrder.items.map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-          ),
-        };
-      }
-      return {
-        ...prevOrder,
-        items: [...prevOrder.items, { ...item, quantity: 1 }],
-      };
-    });
-  };
-
-  const removeFromCart = (itemId) => {
-    setOrder((prevOrder) => {
-      const existingItem = prevOrder.items.find((i) => i.id === itemId);
-      if (existingItem.quantity === 1) {
-        return {
-          ...prevOrder,
-          items: prevOrder.items.filter((i) => i.id !== itemId),
-        };
-      }
-      return {
-        ...prevOrder,
-        items: prevOrder.items.map((i) =>
-          i.id === itemId ? { ...i, quantity: i.quantity - 1 } : i
-        ),
-      };
-    });
-  };
-
   // The value that will be provided to consumers of this context
   const value = {
     order,
     updateOrder,
     updatePayment,
-    clearOrder,
-    addToCart,
-    removeFromCart,
+    clearOrder
   };
 
   return (
