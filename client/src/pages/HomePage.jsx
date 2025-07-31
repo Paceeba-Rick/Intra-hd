@@ -122,6 +122,15 @@ const HomePage = () => {
                 <FaWhatsapp size={20} />
                 WhatsApp Us
               </a>
+              <a 
+                href="https://wa.me/233533125955" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-8 py-3 bg-#00FFFF-300 hover:bg-green-400 text-white font-semibold rounded-full text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+              >
+                <FaWhatsapp size={20} />
+                Request item Pick-up 
+              </a>
             </div>
           </motion.div>
 
