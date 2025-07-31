@@ -114,7 +114,7 @@ const HomePage = () => {
                 Order Now
               </button>
               <a 
-                href="https://wa.me/233533125955" 
+                href="https://wa.me/233594473819" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-8 py-3 bg-green-500 hover:bg-green-400 text-white font-semibold rounded-full text-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
